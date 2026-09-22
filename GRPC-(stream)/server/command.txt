@@ -1,9 +1,19 @@
+# ===============================================================================
+# COMMAND CHEAT SHEET - COPY & PASTE READY
+# ===============================================================================
+
+# 1. Install Go Protobuf & gRPC Plugins
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
+# 2. Ensure Go binaries are accessible in PATH (Optional, run if protoc can't find plugins)
+export PATH="$PATH:$(go env GOPATH)/bin"
+
+# 3. Add gRPC Dependency to Project
 go get google.golang.org/grpc
 
+# 4. Generate Local TLS Certificate & Private Key
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key.pem -out cert.pem -config cert.conf
 
+# 5. Compile Proto File to Go & gRPC Stubs
 protoc -I=proto --go_out=. --go-grpc_out=. proto/main.proto
-
