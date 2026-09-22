@@ -44,24 +44,24 @@ func main() {
 
 	// -------------------------------------------------------------
 
-	// stream2, err := client.SendNumbers(ctx)
-	// if err != nil {
-	// 	log.Fatalln(err)
-	// }
+	stream2, err := client.SendNumbers(ctx)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
-	// for i := 0; i < 9; i++ {
-	// 	err := stream2.Send(&pb.NumberRequest{Number: int32(i)})
-	// 	if err != nil {
-	// 		log.Fatalln(err)
-	// 	}
-	// 	time.Sleep(time.Second)
-	// }
+	for i := 0; i < 9; i++ {
+		err := stream2.Send(&pb.NumberRequest{Number: int32(i)})
+		if err != nil {
+			log.Fatalln(err)
+		}
+		time.Sleep(time.Second)
+	}
 
-	// res, err := stream2.CloseAndRecv()
-	// if err != nil {
-	// 	log.Fatalln(err)
-	// }
-	// log.Println("Server resp after stream:", res.Sum)
+	res, err := stream2.CloseAndRecv()
+	if err != nil {
+		log.Fatalln(err)
+	}
+	log.Println("Server resp after stream:", res.Sum)
 
 	// // -------------------------------------------------------------
 
