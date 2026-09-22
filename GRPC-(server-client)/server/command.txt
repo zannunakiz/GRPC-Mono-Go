@@ -1,9 +1,47 @@
-go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+===============================================================================
+                       gRPC PROJECT SETUP & GENERATION GUIDE
+===============================================================================
 
-go get google.golang.org/grpc
+1. Install Protocol Buffer Compilers for Go
+-------------------------------------------------------------------------------
+Run the following commands to install the protoc plugins for Go and gRPC:
 
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key.pem -out cert.pem -config cert.conf
+   $ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+   $ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
-protoc -I=proto --go_out=. --go-grpc_out=. proto/main.proto proto/greeter.proto
+Ensure that $GOPATH/bin is added to your system's PATH variable so `protoc`
+can locate these binaries.
 
+
+2. Add gRPC Dependency to Go Module
+-------------------------------------------------------------------------------
+Fetch the core gRPC library package for your project:
+
+   $ go get google.golang.org/grpc
+
+
+3. Generate TLS Certificates (Local Development)
+-------------------------------------------------------------------------------
+Generate a self-signed X.509 certificate and a 2048-bit RSA private key valid
+for 365 days using OpenSSL and your `cert.conf` configuration file:
+
+   $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key.pem -out cert.pem -config cert.conf
+
+Output files:
+  - key.pem  : Private RSA Key
+  - cert.pem : Public TLS Certificate
+
+
+4. Compile Protocol Buffers (.proto)
+-------------------------------------------------------------------------------
+Generate Go structs and gRPC service code from `.proto` definitions stored in
+the `proto/` directory:
+
+   $ protoc -I=proto --go_out=. --go-grpc_out=. proto/main.proto proto/greeter.proto
+
+Flags:
+  -I=proto        : Specifies the import search path for proto files.
+  --go_out=.      : Generates Go structs for messages into the current directory.
+  --go-grpc_out=. : Generates Go client and server interfaces/code into the current directory.
+
+===============================================================================
