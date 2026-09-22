@@ -1,0 +1,9 @@
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+
+go get google.golang.org/grpc
+
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key.pem -out cert.pem -config cert.conf
+
+protoc -I=proto --go_out=. --go-grpc_out=. proto/main.proto
+
